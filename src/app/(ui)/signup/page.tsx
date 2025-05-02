@@ -1,7 +1,18 @@
-import { signup } from "@/app/actions/authenticate"
-export function SignupForm() {
+"use client"
+import { signUp } from "@/app/actions/signup";
+
+
+export default function SignupForm() {
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    // "use server"
+    const result = await signUp({ name:"test user", email:"test@example.com"})
+    console.log(result)
+  }
+  
   return (
-    <form action={signup}>
+    <form onSubmit={handleSignup}>
       <div>
         <label htmlFor="name">Name</label>
         <input id="name" name="name" placeholder="Name" />

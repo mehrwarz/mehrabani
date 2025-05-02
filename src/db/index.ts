@@ -1,7 +1,5 @@
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import { drizzle } from 'drizzle-orm/singlestore';
-
-const db = drizzle(process.env.DATABASE_URL);
+import db from "@/_lib/database"
 
 const migrateDb = async () => {
   try {

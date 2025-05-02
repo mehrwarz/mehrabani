@@ -1,5 +1,5 @@
 import { AdapterAccountType } from "next-auth/adapters";
-import { User } from "./Users";
+import { User } from "./user";
 import { integer, pgTable, uuid, primaryKey, varchar, text } from "drizzle-orm/pg-core";
 
 

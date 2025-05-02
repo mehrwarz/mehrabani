@@ -1,8 +1,8 @@
-import { User } from "./tables/Users";
-import { Accounts} from "./tables/Accounts";
-import { Sessions } from "./tables/Sessions";
-import { VerificationTokens } from "./tables/VerificationTokens";
-import { Authenticators } from "./tables/Authenticators";
+import { User } from "../models/user";
+import { Accounts} from "../models//account";
+import { Sessions } from "../models/session";
+import { VerificationTokens } from "../models/verificationTokens";
+import { Authenticators } from "../models/authenticators";
 
 export  {
     User as A,
