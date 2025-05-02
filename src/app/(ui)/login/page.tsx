@@ -1,26 +1,55 @@
 "use client"
-import { signIn } from "@/lib/auth"
+
 import Link from "next/link";
 import Image from "next/image";
-
-const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-}
-
-
+import { useEffect, useState } from "react";
+import { getCsrfToken } from "next-auth/react";
+import { authenticate } from "@/app/actions/authenticate";
 
 export default function SignIn(this: any) {
+    const [error, setError] = useState({}) as any;
+    const [csrfToken, setCsrfToken] = useState("");
+
+    const handleSubmit = async (event: any) => {
+        try {
+            const signingIn = await authenticate({
+                email: event.target.email.value,
+                password: event.target.password.value,
+                csrfToken: csrfToken,
+            });
+
+            if (signingIn.success) {
+                window.location.href = "/dashboard";
+            }
+
+            if (signingIn.error) {
+                setError(signingIn.error);
+            }
+        } catch (error) {
+            setError({ message: "Failed to login" });
+        }
+    };
+
+    useEffect(() => {
+        async function fetchCsrfToken() {
+            const token = await getCsrfToken();
+            setCsrfToken(token);
+        }
+        fetchCsrfToken();
+    }, []);
+
+
     return (
-        <div className="container-fluid d-flex justify-content-center align-items-center vh-100 w-100 gradient">
-            <div className="row">
-                <div className="mx-auto card shadow p-0 ">
-                    <div className="card-header bg-primary text-white text-center fw-bold">Login</div>
-                    <div className="card-body p-4">
-                        <Image src="/Images/MehrabaniBook.png" className="img-fluid mb-4" alt="Mehrabani" width={280} height={100} />
-                        <form onSubmit={handleSubmit}>
+        <div className="row">
+            {error}
+            <div className="container-fluid d-flex justify-content-center align-items-center vh-100 vw-100 gradient">
+                <div className="mx-auto card shadow m-0 p-0 col-md-4 col-lg-3 ">
+                    <div className="card-header bg-primary text-white text-center fw-bold w-100">Login</div>
+                    <div className="card-body">
+                        <div className="d-flex w-100">
+                            <Image src="/Images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} />
+                        </div>
+                        <form onSubmit={handleSubmit} className="p-4">
                             <div className="mb-3">
                                 <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                                 <input type="email" name="email" className="form-control border border-secondary" id="exampleInputEmail1" />
