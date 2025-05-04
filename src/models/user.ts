@@ -1,10 +1,20 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { varchar, pgTable, uuid, timestamp , pgEnum, date} from 'drizzle-orm/pg-core';
+import { Timestamps } from "@/util/timestamps"
+
+export const userRoleEnum = pgEnum('user_role', ['admin', 'editor', 'viewer','user']);
+
 export const User = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  age: integer('age').notNull(),
-  email: text('email').notNull().unique(),
+  userId: uuid("id").primaryKey(),
+  email: varchar('email').notNull(),
+  password: varchar("password"),
+  firstName: varchar('first_name').notNull(),
+  lastName: varchar('last_name').notNull(),
+  Dob: date("Date_of_birth").notNull(),
+  role: userRoleEnum('role').default('viewer'),
+  emailVerified: timestamp("email_verified_at"),
+  image: varchar("photo_url"),
+  ...Timestamps
 });
 
-export type InsertUser = typeof User.$inferInsert;
-export type SelectUser = typeof User.$inferSelect;
+export type NewUser = typeof User.$inferInsert;
+export type UserType = typeof User.$inferSelect;

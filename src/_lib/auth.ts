@@ -1,58 +1,38 @@
-import NextAuth from 'next-auth';
-import Credentials from '@auth/core/providers/credentials';
-import bcrypt from 'bcryptjs';
-import { z } from 'zod';
-// import { db, users, selectUserSchema } from '@/db'; // Adjust path as needed
-// import { eq } from 'drizzle-orm';
+import NextAuth from "next-auth"
+import Credentials from "next-auth/providers/credentials"
+import { saltAndHashPassword } from "@/util/helpers"
+import db from "@/_lib/database"
+import { User } from "@/models/user"
+import { eq } from "drizzle-orm"
+import { signinSchema } from "@/schemas/signin"
+import bcrypt from "bcryptjs"
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  providers: [
-    Credentials({
-      async authorize(credentials) {
-        try {
-          const parsedCredentials = z
-            .object({ email: z.string().email(), password: z.string().min(6) })
-            .safeParse(credentials);
 
-          if (!parsedCredentials.success) {
-            return null;
-          }
+export const { handlers, signIn, signOut, auth } = NextAuth({
+    providers: [
+        Credentials({
 
-          const { email, password } = parsedCredentials.data;
-          return { name:"user", email:"test@example.com"}
+            async authorize(credentials): Promise<any> {
 
-          const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
+                const validData = signinSchema.safeParse(credentials);
+                if (validData.error) {
+                    return null
+                }
 
-          if (!user) return null;
+                let currentUser = null
+                const { email, password } = validData.data;
 
-          const isValidPassword = await bcrypt.compare(password, user.password);
+                // logic to verify if the user exists
+                currentUser = await db.select().from(User).where(eq(User.email, email)).limit(1)
 
-          if (!isValidPassword) return null;
+                if (!currentUser) {
+                    throw new Error("Invalid credentials.")
+                }
 
-          return selectUserSchema.parse(user); // Return the validated user object
-        } catch (error) {
-          console.error('Authentication error:', error);
-          return null;
-        }
-      },
-    }),
-  ],
-  callbacks: {
-    session({ session, token }) {
-      if (token) {
-        session.user = token as any; // Type assertion based on your user object
-      }
-      return session;
-    },
-    jwt({ token, user }) {
-      if (user) {
-        token = { ...token, ...user };
-      }
-      return token;
-    },
-  },
-  pages: {
-    signIn: '/login', // Optional custom sign-in page
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-});
+                console.log( bcrypt.compare(password,currentUser.password))
+                // return user object with their profile data
+                return user
+            },
+        }),
+    ],
+})

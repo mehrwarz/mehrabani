@@ -3,11 +3,10 @@ import { signUp } from "@/app/actions/signup";
 
 
 export default function SignupForm() {
-  const handleSignup = async (e) => {
+  const handleSignup = async (e:Event) => {
     e.preventDefault();
-
-    // "use server"
-    const result = await signUp({ name:"test user", email:"test@example.com"})
+    
+    const result = await signUp({...e.target})
     console.log(result)
   }
   

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-export const SignupSchema = z.object({
+export const signupSchema = z.object({
   name: z
     .string()
     .min(2, { message: 'Name must be at least 2 characters long.' })
@@ -15,3 +15,5 @@ export const SignupSchema = z.object({
     })
     .trim(),
 })
+
+type signupSchema = z.infer< typeof signupSchema >
