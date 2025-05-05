@@ -1,8 +1,9 @@
+CREATE TYPE "public"."user_role" AS ENUM('admin', 'editor', 'viewer', 'user');--> statement-breakpoint
 CREATE TABLE "users" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"first_name" varchar NOT NULL,
 	"last_name" varchar NOT NULL,
-	"Date_of_birth" date NOT NULL,
+	"date_of_birth" date NOT NULL,
 	"email" varchar NOT NULL,
 	"password" varchar,
 	"role" "user_role" DEFAULT 'viewer',
@@ -10,7 +11,8 @@ CREATE TABLE "users" (
 	"photo_url" varchar,
 	"updated_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	"modified_at" timestamp
+	"modified_at" timestamp,
+	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 CREATE TABLE "accounts" (
@@ -41,4 +43,6 @@ CREATE TABLE "verification_tokens" (
 );
 --> statement-breakpoint
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "email_idx" ON "users" USING btree ("email");--> statement-breakpoint
+CREATE INDEX "name_idx" ON "users" USING btree ("first_name","last_name");

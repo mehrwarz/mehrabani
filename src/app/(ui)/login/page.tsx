@@ -1,11 +1,12 @@
 "use client"
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
 import { authenticate } from "@/app/actions/authenticate";
 import Image from "next/image";
 
-export default function SignIn(this: any) {
+export default function SignIn() {
     const [error, setError] = useState() as any;
     const [csrfToken, setCsrfToken] = useState("");
 
@@ -24,7 +25,7 @@ export default function SignIn(this: any) {
             }
 
         } catch (error) {
-            setError({ message: "Failed to login" });
+            setError("Please try again later.");
         }
     };
 
@@ -62,7 +63,7 @@ export default function SignIn(this: any) {
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </div>
                         </form>
-                        {error}
+                        { error && <div className="alert alert-danger" role="alert">{error}</div>}
                     </div>
                     <div className="card-footer text-muted text-center bg-light">
                         Don't have an account? <Link href="/signup" className="text-decoration-none text-primary"> Sign Up</Link>

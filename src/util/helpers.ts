@@ -18,7 +18,7 @@ export async function saltAndHashPassword(plainPassword: string) {
 
 
 
-export function randomString(length = 16): () => any {
+export function randomString(length = 16): any {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_';
     let result = '';
     for (let i = 0; i < length; i++) {

@@ -1,41 +1,44 @@
 "use server"
 import { redirect } from 'next/navigation'
-import { signinSchema } from '@/schemas/signin'
 import { signIn } from '@/_lib/auth'
-import { error } from 'console'
+import z from "zod"
 
 export async function logout() {
-  redirect('/login')
+	redirect('/login')
 }
 
 
 export async function authenticate(formData: any) {
-  try {
-    const validatedFields = signinSchema.safeParse(formData);
-    const { email, password, csrfToken } = validatedFields.data;
-    const res = await signIn("credentials", {
-      redirect: "/classroom",
-      email,
-      password,
-      csrfToken,
-    });
 
-    // const session = await auth()
+	const validEmail = z.string().email();
+	const emailValidation = validEmail.safeParse(formData.email);
 
-    // if(session?.user){
-    //     return { success: true, message: "Login successful", status: 200, ok: true }
-    // }
+	if (emailValidation.success == false) {
+		return { error: "Invalid email address" }
+	}
 
-    // if( res == "http://localhost:3000/api/auth/callback/credentials?"){
-    //    return {error:{ message:"Fatall Error: Check system configuration."}}
-    // }
+	try {
+		const res = await signIn("credentials", {
+			email: emailValidation.data,
+			password: formData.password,
+			csrfToken: formData.csrfToken,
+		});
 
-    return { error: 'Unable to login' }
+		console.log("result", res )
+		// const session = await auth()
 
-  } catch (err: any) {
-    if (err.type === "AuthError") {
-      return { error: err.message }
-    }
-    return { error: 'Something went wrong, please try again' }
-  }
+		// if(session?.user){
+		//     return { success: true, message: "Login successful", status: 200, ok: true }
+		// }
+
+		// if( res == "http://localhost:3000/api/auth/callback/credentials?"){
+		//    return {error:{ message:"Fatall Error: Check system configuration."}}
+		// }
+
+		return { error: "done" }
+
+	} catch (err: any) {
+		console.log("Error message: ", JSON.stringify(err))
+		return { error: err.message }
+	}
 }
