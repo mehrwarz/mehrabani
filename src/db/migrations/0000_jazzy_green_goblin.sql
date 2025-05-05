@@ -1,10 +1,10 @@
 CREATE TABLE "users" (
 	"id" uuid PRIMARY KEY NOT NULL,
-	"email" varchar NOT NULL,
-	"password" varchar,
 	"first_name" varchar NOT NULL,
 	"last_name" varchar NOT NULL,
 	"Date_of_birth" date NOT NULL,
+	"email" varchar NOT NULL,
+	"password" varchar,
 	"role" "user_role" DEFAULT 'viewer',
 	"email_verified_at" timestamp,
 	"photo_url" varchar,

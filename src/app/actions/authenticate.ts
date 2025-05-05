@@ -1,6 +1,6 @@
 "use server"
 import { redirect } from 'next/navigation'
-import { signInSchema } from '@/schemas/signin'
+import { signinSchema } from '@/schemas/signin'
 import { signIn } from '@/_lib/auth'
 import { error } from 'console'
 
@@ -11,7 +11,7 @@ export async function logout() {
 
 export async function authenticate(formData: any) {
   try {
-    const validatedFields = signInSchema.safeParse(formData);
+    const validatedFields = signinSchema.safeParse(formData);
     const { email, password, csrfToken } = validatedFields.data;
     const res = await signIn("credentials", {
       redirect: "/classroom",

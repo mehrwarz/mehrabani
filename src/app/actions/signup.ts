@@ -1,17 +1,29 @@
 "use server";
+import {User} from "@/models/user"
+import { signupSchema } from "@/schemas/signUp";
+import db from "@/_lib/database";
+import {eq} from "drizzle-orm"
+import { error } from "console";
 
-import { createUser } from "@/controllers/userController";
-import { SignupSchema } from "@/schemas/signUp";
-
-export async function signUp(req: Request) {
-  const validation = SignupSchema.safeParse(req)
+export async function signUp(props:{}) {
+  const validation = signupSchema.safeParse(props)
   if (validation.success == false) {
-    console.log("form data not valid");
-    console.log(validation.error.message)
-    return {...validation.error};
+    return {error:validation.error.issues};
   }
-  console.log("Form validation successed! ", validation.error);
+  
+  const validData = validation.data;
 
-  console.log("requst data " , req)
-  return {result: " Request result"}
+  const existUser = await db.select().from(User).where(eq(User.email, validData.email)).limit(1)
+
+  if(existUser) {
+    return {success: "User already registered!"}
+  }
+
+  const result = await db.insert(User).values(validData);
+
+  console.log(result)
+
+
+
+  return {success: " Request result"}
 }
