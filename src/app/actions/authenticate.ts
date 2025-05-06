@@ -1,6 +1,6 @@
 "use server"
 import { redirect } from 'next/navigation'
-import { signIn } from '@/_lib/auth'
+import { auth, signIn } from '@/_lib/auth'
 import z from "zod"
 
 export async function logout() {
@@ -24,21 +24,14 @@ export async function authenticate(formData: any) {
 			csrfToken: formData.csrfToken,
 		});
 
-		console.log("result", res )
-		// const session = await auth()
+		const session = await auth()
 
-		// if(session?.user){
-		//     return { success: true, message: "Login successful", status: 200, ok: true }
-		// }
+		if (session?.user) {
+			return { success: true, message: "Login successful", status: 200, ok: true }
+		}
 
-		// if( res == "http://localhost:3000/api/auth/callback/credentials?"){
-		//    return {error:{ message:"Fatall Error: Check system configuration."}}
-		// }
-
-		return { error: "done" }
-
+		return { error: { message: "Fatall Error: Check system configuration." } }
 	} catch (err: any) {
-		console.log("Error message: ", JSON.stringify(err))
 		return { error: err.message }
 	}
 }

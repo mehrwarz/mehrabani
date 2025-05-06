@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import NextAuth, { AuthError } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { saltAndHashPassword } from "@/util/helpers"
 import { signinSchema } from "@/schemas/signin"
@@ -8,6 +8,15 @@ import { eq } from "drizzle-orm"
 import { ZodError } from "zod"
 import bcrypt from "bcryptjs"
 
+
+class customError extends AuthError {
+    message: string
+    constructor(message: string) {
+        super()
+        this.message = message
+    }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
         Credentials({
@@ -16,25 +25,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 try {
                     const { email, password } = await signinSchema.parseAsync(credentials)
 
-
                     let currentUser = null
 
                     // logic to verify if the user exists
-                    currentUser = await db.select().from(users).where(eq(users.email, emailValidation.data)).limit(1)
+                    currentUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
-                    if (!currentUser) {
-                        throw new Error("Invalid credentials.")
+                    return {user:'user',email:email}
+
+                    if (currentUser.length == 0) {
+                        throw new customError("Invalid credentials.")
                     }
-
-                    console.log("The password comartion", bcrypt.compare(password, currentUser.password))
                     // return user object with their profile data
                     return currentUser
                 }
-                catch (error) {
+                catch (error:any) {
                     if (error instanceof ZodError) {
                         // Return `null` to indicate that the credentials are invalid
-                        throw new Error("Invalid credentials.")
+                        throw new customError("Credentials not valid.");
                     }
+                    throw new customError(error.message)
                 }
             }
         }),
