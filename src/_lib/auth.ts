@@ -48,4 +48,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
         }),
     ],
+
+    callbacks: {
+        async jwt(token) {
+            token.myProp = 'Cutome property';
+            return token;
+        },
+        async session(token, session) {
+            if(session.user){
+                session.myProp = token.myProp;
+            }
+           return session;
+        },
+    }
 })

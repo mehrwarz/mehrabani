@@ -2,6 +2,7 @@
 import { redirect } from 'next/navigation'
 import { auth, signIn } from '@/_lib/auth'
 import z from "zod"
+import { error } from 'console'
 
 export async function logout() {
 	redirect('/login')
@@ -34,4 +35,5 @@ export async function authenticate(formData: any) {
 	} catch (err: any) {
 		return { error: err.message }
 	}
+	throw error;
 }
