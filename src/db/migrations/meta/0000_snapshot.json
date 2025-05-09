@@ -1,5 +1,5 @@
 {
-  "id": "3e97dc0b-7872-4a02-9733-baf04a1b9d8f",
+  "id": "7b2a4da5-fe01-439b-a571-1df59a2944ee",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -12,7 +12,8 @@
           "name": "id",
           "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "first_name": {
           "name": "first_name",
@@ -42,7 +43,7 @@
           "name": "password",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "role": {
           "name": "role",
@@ -63,6 +64,13 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
+        },
+        "is_disabled": {
+          "name": "is_disabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         },
         "updated_at": {
           "name": "updated_at",

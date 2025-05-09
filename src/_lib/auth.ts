@@ -1,64 +1,86 @@
-import NextAuth, { AuthError } from "next-auth"
-import Credentials from "next-auth/providers/credentials"
-import { saltAndHashPassword } from "@/util/helpers"
-import { signinSchema } from "@/schemas/signin"
-import db from "@/_lib/database"
-import { users } from "@/models/user"
-import { eq } from "drizzle-orm"
-import { ZodError } from "zod"
-import bcrypt from "bcryptjs"
+import NextAuth, { AuthError, type DefaultSession } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { signinSchema } from "@/schemas/signin";
+import db from "@/_lib/database";
+import { users, User } from "@/models/user"; // Import User type directly
+import { eq } from "drizzle-orm";
+import { ZodError } from "zod";
+import bcrypt from "bcryptjs";
 
-
-class customError extends AuthError {
-    message: string
+class CustomAuthError extends AuthError {
+    message: string;
     constructor(message: string) {
-        super()
-        this.message = message
+        super();
+        this.message = message;
     }
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
         Credentials({
-            async authorize(credentials): Promise<any> {
-
+            async authorize(credentials): Promise<User | null> {
                 try {
-                    const { email, password } = await signinSchema.parseAsync(credentials)
+                    const { email, password } = await signinSchema.parseAsync(credentials);
 
-                    let currentUser = null
+                    const [currentUser] = await db
+                        .select()
+                        .from(users)
+                        .where(eq(users.email, email))
+                        .limit(1);
 
-                    // logic to verify if the user exists
-                    currentUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
-
-                    return {user:'user',email:email}
-
-                    if (currentUser.length == 0) {
-                        throw new customError("Invalid credentials.")
+                    if (!currentUser) {
+                        throw new CustomAuthError("Your credentials do not match.");
                     }
-                    // return user object with their profile data
-                    return currentUser
-                }
-                catch (error:any) {
+
+                    const passwordMatch = await bcrypt.compare(password, currentUser.password);
+
+                    if (!passwordMatch) {
+                        throw new CustomAuthError("Your credentials do not match.");
+                    }
+
+                    // Return user object with their profile data
+                    return currentUser;
+                } 
+                catch (error: any) {
                     if (error instanceof ZodError) {
-                        // Return `null` to indicate that the credentials are invalid
-                        throw new customError("Credentials not valid.");
+                        console.warn("Invalid sign-in credentials format:", error.errors)
+                        throw new CustomAuthError("Invalid credentials format.");
                     }
-                    throw new customError(error.message)
+                    console.error("Error during sign-in:", error);
+                    // throw new AuthError("An unexpected error occurred during sign-in.");
+                    throw new CustomAuthError(error.message)
                 }
-            }
+            },
         }),
     ],
-
+    pages: {
+        signIn: "/auth/login",
+        signOut: "/logout",
+        error: "/error",
+    },
+    session: {
+        strategy: "jwt",
+    },
     callbacks: {
-        async jwt(token) {
-            token.myProp = 'Cutome property';
+        jwt({ token, user }) {
+            if (user) {
+                token.user = user;
+            }
             return token;
         },
-        async session(token, session) {
-            if(session.user){
-                session.myProp = token.myProp;
+        session({ session, token }) {
+            if (token.user) {
+                session.user = {
+                    id: token.user.id,
+                    firstName: token.user.firstName,
+                    lastName: token.user.lastName,
+                    email: token.user.email,
+                    role: token.user.role,
+                    photoUrl: token.user.photoUrl,
+                } 
             }
-           return session;
+            return session;
         },
-    }
-})
+    },
+    secret: process.env.AUTH_SECRET,
+});

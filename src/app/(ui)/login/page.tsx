@@ -17,16 +17,14 @@ export default function SignIn() {
             const signingIn = await authenticate({
                 email: event.target.email.value,
                 password: event.target.password.value,
+                redirect: false,
                 csrfToken: csrfToken,
             });
-
-            console.log("Error", JSON.stringify(signingIn))
            
             if (signingIn.error) {
                 setError(signingIn.error);
                 return false
             }
-            redirect('/settings')
 
         } catch (error) {
             setError("Please try again later.");

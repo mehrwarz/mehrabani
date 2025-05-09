@@ -2,7 +2,6 @@
 import { redirect } from 'next/navigation'
 import { auth, signIn } from '@/_lib/auth'
 import z from "zod"
-import { error } from 'console'
 
 export async function logout() {
 	redirect('/login')
@@ -25,6 +24,7 @@ export async function authenticate(formData: any) {
 			csrfToken: formData.csrfToken,
 		});
 
+		console.log("Auth result: ", JSON.stringify(res))
 		const session = await auth()
 
 		if (session?.user) {
@@ -35,5 +35,4 @@ export async function authenticate(formData: any) {
 	} catch (err: any) {
 		return { error: err.message }
 	}
-	throw error;
 }

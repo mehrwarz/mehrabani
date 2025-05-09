@@ -16,7 +16,7 @@ export const signupSchema = z.object({
       message: 'Contain at least one special character.',
     })
     .trim(),
-  DoB: z.string().date("Date of Birth is required").trim(),
+    dateOfBirth: z.string().date("Date of Birth is required").trim(),
 
 })
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
 import { signUp } from "@/app/actions/signup"
 
@@ -18,12 +18,12 @@ export default function Singup() {
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
-		DoB: "",
+		dateOfBirth: "",
 		email: "",
 		password: "",
 	});
 
-	const handleChange = (e) => {
+	const handleChange = (e: { target: { name: string; value: string; }; }) => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({
 			...prevData,
@@ -39,10 +39,15 @@ export default function Singup() {
 			const register = await signUp({
 				...formData,
 				csrfToken: token,
-			});
+			}) as any;
 
 			if(register.success){
 				setError({success:{message: register.success}});
+				return
+			}
+
+			if(register.failure){
+				setError(register);
 				return
 			}
 
@@ -56,7 +61,7 @@ export default function Singup() {
 				return			
 			}
 
-			setError({failure:{message:"Something went wrogn, Please try agian later!"}})
+			setError({failure:{message:"Something went wrong. Please try agian later!"}})
 
 		} catch (error) {
 			setError({failure:{ message: "Registration failed." }});
@@ -102,13 +107,13 @@ export default function Singup() {
 								</div>
 
 								<div className="w-100">
-									<label className="form-label" htmlFor="DoB">Date of Birth.</label>
+									<label className="form-label" htmlFor="dateOfBirth">Date of Birth.</label>
 									<div className="input-group">
-										<input type="date" name="DoB" className="form-control border border-secondary w-100" id="DoB"
-											value={formData.DoB}
+										<input type="date" name="dateOfBirth" className="form-control border border-secondary w-100" id="dateOfBirth"
+											value={formData.dateOfBirth}
 											onChange={handleChange}
 											required />
-										{error?.DoB && <div className="text-danger">{error.DoB}</div>}
+										{error?.dateOfBirth && <div className="text-danger">{error.dateOfBirth}</div>}
 									</div>
 								</div>
 								<div className="w-100">

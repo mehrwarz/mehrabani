@@ -1,14 +1,15 @@
 CREATE TYPE "public"."user_role" AS ENUM('admin', 'editor', 'viewer', 'user');--> statement-breakpoint
 CREATE TABLE "users" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"first_name" varchar NOT NULL,
 	"last_name" varchar NOT NULL,
 	"date_of_birth" date NOT NULL,
 	"email" varchar NOT NULL,
-	"password" varchar,
+	"password" varchar NOT NULL,
 	"role" "user_role" DEFAULT 'viewer',
 	"email_verified_at" timestamp,
 	"photo_url" varchar,
+	"is_disabled" boolean DEFAULT false,
 	"updated_at" timestamp,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"modified_at" timestamp,
