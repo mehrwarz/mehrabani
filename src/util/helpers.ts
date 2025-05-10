@@ -1,22 +1,32 @@
 import bcrypt from 'bcryptjs';
-import { SQL } from 'drizzle-orm';
-import { number } from 'zod';
 
-export async function saltAndHashPassword(plainPassword: string) {
+/**
+ * 
+ * @param plainPassword String
+ * @param saltRounds number
+ * @returns String
+ */
+
+export async function saltAndHashPassword(plainPassword: string, saltRounds:number) {
   try {
-    // Generate a salt
-    const saltRounds = parseInt(process.env.PASSWORD_SALT_ROUND) || 10; // You can adjust the number of salt rounds for security vs. performance
-    const salt = bcrypt.genSalt(saltRounds);
+    // Generate a salt// You can adjust the number of salt rounds for security vs. performance
+    const salt = await bcrypt.genSalt(saltRounds);
 
     // Hash the password using the generated salt
     const hashedPassword = await bcrypt.hash(plainPassword, salt)
     return hashedPassword;
   } catch (error) {
+    console.warn("Error on hashing: ", error)
     throw error; // Re-throw the error to be handled by the caller
   }
 }
 
 
+/**
+ * 
+ * @param length number
+ * @returns String
+ */
 
 export function randomString(length = 16): any {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_';

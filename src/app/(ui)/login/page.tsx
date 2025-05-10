@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
 import { authenticate } from "@/app/actions/authenticate";
 import Image from "next/image";
-import { redirect } from "next/dist/server/api-utils";
 
 export default function SignIn() {
     const [error, setError] = useState() as any;
@@ -20,12 +19,11 @@ export default function SignIn() {
                 redirect: false,
                 csrfToken: csrfToken,
             });
-           
+
             if (signingIn.error) {
                 setError(signingIn.error);
                 return false
             }
-
         } catch (error) {
             setError("Please try again later.");
         }

@@ -1,5 +1,5 @@
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
-import db from "@/_lib/database"
+import db from "@/lib/database"
 
 const migrateDb = async () => {
   try {

@@ -1,4 +1,4 @@
-import { auth, signOut } from "@/_lib/auth";
+import { auth, signOut } from "@/lib/auth";
 import Image from "next/image";
 export default async function Home() {
 

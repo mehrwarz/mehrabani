@@ -1,11 +1,12 @@
 import NextAuth, { AuthError, type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { signinSchema } from "@/schemas/signin";
-import db from "@/_lib/database";
+import db from "@/lib/database";
 import { users, User } from "@/models/user"; // Import User type directly
 import { eq } from "drizzle-orm";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
+import { Adapter, AdapterSession, AdapterUser } from "next-auth/adapters";
 
 class CustomAuthError extends AuthError {
     message: string;
@@ -16,6 +17,7 @@ class CustomAuthError extends AuthError {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    debug: true,
     providers: [
         Credentials({
             async authorize(credentials): Promise<User | null> {
@@ -32,23 +34,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         throw new CustomAuthError("Your credentials do not match.");
                     }
 
-                    const passwordMatch = await bcrypt.compare(password, currentUser.password);
+                    const passwordMatch = await bcrypt.compare(password, currentUser.password)!!;
 
                     if (!passwordMatch) {
                         throw new CustomAuthError("Your credentials do not match.");
                     }
 
-                    // Return user object with their profile data
-                    return currentUser;
-                } 
-                catch (error: any) {
-                    if (error instanceof ZodError) {
-                        console.warn("Invalid sign-in credentials format:", error.errors)
-                        throw new CustomAuthError("Invalid credentials format.");
+                    const user = {
+                        id: currentUser.id, 
+                        firstName: currentUser.firstName,
+                        lastName: currentUser.lastName, 
+                        email: currentUser.email, 
+                        role: currentUser.role, 
+                        photoUrl: currentUser.photoUrl
                     }
-                    console.error("Error during sign-in:", error);
-                    // throw new AuthError("An unexpected error occurred during sign-in.");
-                    throw new CustomAuthError(error.message)
+
+                    return user as any;
+                }
+                catch (error: any) {
+                    console.error("Error caught:", error);
+                    if (error instanceof ZodError) {
+                        console.warn("Invalid sign-in credentials format:", error.errors);
+                        throw new CustomAuthError("Invalid credentials format.");
+                    } else if (error instanceof AuthError) {
+                        throw error; // Re-throw the AuthError
+                    }
+                    console.error("Unexpected error during sign-in:", error);
+                    throw new CustomAuthError("An unexpected error occurred during sign-in.");
                 }
             },
         }),
@@ -62,23 +74,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         strategy: "jwt",
     },
     callbacks: {
-        jwt({ token, user }) {
-            if (user) {
-                token.user = user;
+        async jwt({ token,user }) {
+            if(user){
+                token.user = user
             }
             return token;
         },
-        session({ session, token }) {
-            if (token.user) {
-                session.user = {
-                    id: token.user.id,
-                    firstName: token.user.firstName,
-                    lastName: token.user.lastName,
-                    email: token.user.email,
-                    role: token.user.role,
-                    photoUrl: token.user.photoUrl,
-                } 
-            }
+        async session({ session, token }) {
+           session.user = token.user as AdapterUser
             return session;
         },
     },

@@ -10,7 +10,6 @@ import {
 } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import { Timestamps } from '@/util/cutomColumns';
-import { randomUUID } from 'crypto';
 
 export const userRoleEnum = pgEnum('user_role', ['admin', 'editor', 'viewer', 'user']);
 
@@ -46,4 +45,4 @@ export const users = pgTable(
 );
 
 export type NewUser = typeof users.$inferInsert;
-export type UserType = typeof users.$inferSelect;
+export type User = typeof users.$inferSelect;
