@@ -1,4 +1,4 @@
-import NextAuth, { AuthError, type DefaultSession } from "next-auth";
+import NextAuth, { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { signinSchema } from "@/schemas/signin";
 import db from "@/lib/database";
@@ -6,7 +6,7 @@ import { users, User } from "@/models/user"; // Import User type directly
 import { eq } from "drizzle-orm";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
-import { Adapter, AdapterSession, AdapterUser } from "next-auth/adapters";
+import { AdapterUser } from "next-auth/adapters";
 
 class CustomAuthError extends AuthError {
     message: string;
@@ -16,8 +16,9 @@ class CustomAuthError extends AuthError {
     }
 }
 
+
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    debug: true,
     providers: [
         Credentials({
             async authorize(credentials): Promise<User | null> {
@@ -57,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         console.warn("Invalid sign-in credentials format:", error.errors);
                         throw new CustomAuthError("Invalid credentials format.");
                     } else if (error instanceof AuthError) {
-                        throw error; // Re-throw the AuthError
+                        throw error; 
                     }
                     console.error("Unexpected error during sign-in:", error);
                     throw new CustomAuthError("An unexpected error occurred during sign-in.");
@@ -73,6 +74,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     session: {
         strategy: "jwt",
     },
+
     callbacks: {
         async jwt({ token,user }) {
             if(user){

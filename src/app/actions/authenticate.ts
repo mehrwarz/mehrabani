@@ -8,19 +8,20 @@ export async function logout() {
 }
 
 export async function authenticate(formData: any) {
-	const emailValidation = z.string().email().safeParse(formData.email);
+	const { email, password, csrfToken } = formData;
+	const emailValidation = z.string().email().safeParse(email);
 
 	if (emailValidation.success == false) {
-		return { error: "Invalid email address" }
+		return { error:{message: "Invalid email address" }}
 	}
 
 	try {
-		const res = await signIn("credentials", {
-			email: emailValidation.data,
-			password: formData.password,
-			csrfToken: formData.csrfToken
-		});
-
+        const res = await signIn("credentials", {
+            redirect: false,
+            email,
+            password,
+            csrfToken,
+        });
 		const session = await auth()
 
 		if (session?.user) {
@@ -29,6 +30,6 @@ export async function authenticate(formData: any) {
 
 		return { error: { message:"An unexpected error occurred during sign-in." } }
 	} catch (err: any) {
-		return { error: err.message }
+		return { error:{ message:err.message} }
 	}
 }

@@ -1,3 +1,4 @@
+import { auth } from '@/lib/auth';
 import bcrypt from 'bcryptjs';
 
 /**
@@ -37,3 +38,8 @@ export function randomString(length = 16): any {
     }
     return result;
 }
+
+export const getSession = async ()=> {
+        // "use server"
+        return await auth();
+    }
