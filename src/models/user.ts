@@ -26,7 +26,7 @@ export const users = pgTable(
     dateOfBirth: date('date_of_birth').notNull(),
     email: varchar('email').notNull().unique(),
     password: varchar('password').notNull(),
-    role: userRoleEnum().default('viewer'),
+    role: userRoleEnum().default('viewer').notNull(),
     emailVerifiedAt: timestamp('email_verified_at'),
     photoUrl: varchar('photo_url'),
     isDisabled: boolean('is_disabled').default(false),

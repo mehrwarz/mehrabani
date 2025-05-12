@@ -2,11 +2,10 @@ import NextAuth, { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { signinSchema } from "@/schemas/signin";
 import db from "@/lib/database";
-import { users, User } from "@/models/user"; // Import User type directly
+import { users } from "@/models/user";
 import { eq } from "drizzle-orm";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
-import { AdapterUser } from "next-auth/adapters";
 
 class CustomAuthError extends AuthError {
     message: string;
@@ -16,12 +15,20 @@ class CustomAuthError extends AuthError {
     }
 }
 
-
+type sessionUser = {
+    id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    role: string,
+    photoUrl: string | null,
+    emailVerified: Date | null,
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
         Credentials({
-            async authorize(credentials): Promise<User | null> {
+            async authorize(credentials): Promise<sessionUser | null> {
                 try {
                     const { email, password } = await signinSchema.parseAsync(credentials);
 
@@ -32,33 +39,35 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         .limit(1);
 
                     if (!currentUser) {
+                        console.warn(`Authentication failed for email: ${email} - User not found.`);
                         throw new CustomAuthError("Your credentials do not match.");
                     }
 
                     const passwordMatch = await bcrypt.compare(password, currentUser.password)!!;
 
                     if (!passwordMatch) {
+                        console.warn(`Authentication failed for email: ${email} - Incorrect password.`);
                         throw new CustomAuthError("Your credentials do not match.");
                     }
 
-                    const user = {
-                        id: currentUser.id, 
+                    const user: sessionUser = {
+                        id: currentUser.id,
                         firstName: currentUser.firstName,
-                        lastName: currentUser.lastName, 
-                        email: currentUser.email, 
-                        role: currentUser.role, 
-                        photoUrl: currentUser.photoUrl
-                    }
+                        lastName: currentUser.lastName,
+                        email: currentUser.email,
+                        role: currentUser.role,
+                        photoUrl: currentUser.photoUrl,
+                        emailVerified: currentUser.emailVerifiedAt,
+                    };
 
-                    return user as any;
-                }
-                catch (error: any) {
-                    console.error("Error caught:", error);
+                    return user;
+                } catch (error: any) {
+                    console.error("Error during authorize:", error);
                     if (error instanceof ZodError) {
                         console.warn("Invalid sign-in credentials format:", error.errors);
                         throw new CustomAuthError("Invalid credentials format.");
                     } else if (error instanceof AuthError) {
-                        throw error; 
+                        throw error;
                     }
                     console.error("Unexpected error during sign-in:", error);
                     throw new CustomAuthError("An unexpected error occurred during sign-in.");
@@ -76,14 +85,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     callbacks: {
-        async jwt({ token,user }) {
-            if(user){
-                token.user = user
+        async jwt({ token, user }) {
+            if (user) {
+                token.user = user;
             }
             return token;
         },
         async session({ session, token }) {
-           session.user = token.user as AdapterUser
+            session.user = token.user as sessionUser; 
             return session;
         },
     },

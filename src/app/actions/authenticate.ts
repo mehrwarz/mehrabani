@@ -15,21 +15,20 @@ export async function authenticate(formData: any) {
 		return { error:{message: "Invalid email address" }}
 	}
 
-	try {
-        const res = await signIn("credentials", {
+    try {
+        const result = await signIn("credentials", {
             redirect: false,
             email,
             password,
             csrfToken,
         });
-		const session = await auth()
 
-		if (session?.user) {
-			return { success: true, message: "Login successful", status: 200, ok: true }
-		}
+        if (result?.error) {
+            return { error: { message: result.error } };
+        }
 
-		return { error: { message:"An unexpected error occurred during sign-in." } }
-	} catch (err: any) {
-		return { error:{ message:err.message} }
-	}
+        return { success: true, message: "Login successful", status: 200, ok: true, redirectTo: '/' }; // Indicate a redirect
+    } catch (err: any) {
+        return { error:{ message:err.message} }
+    }
 }
