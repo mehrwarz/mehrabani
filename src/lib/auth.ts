@@ -6,10 +6,10 @@ import { users } from "@/models/user";
 import { eq } from "drizzle-orm";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
-import { 
-    attemptLockout, 
-    isAccountLocked, 
-    recordFailedLogin 
+import {
+    attemptLockout,
+    isAccountLocked,
+    recordFailedLogin
 } from "@/util/helpers";
 
 class CustomAuthError extends AuthError {

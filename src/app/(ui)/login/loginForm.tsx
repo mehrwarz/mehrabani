@@ -13,18 +13,17 @@ export default function LoginForm(){
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         try {
-            const signingIn = await authenticate({
+            const result  = await authenticate({
                 email: event.target.email.value,
                 password: event.target.password.value,
                 csrfToken: csrfToken,
             });
-            
-            if(signingIn.success){
+            if(result .success){
                 window.location.href = "/settings";
                 return
             }
-            if (signingIn.error) {
-                setError(signingIn.error.message);
+            if (result .error) {
+                setError(result .error.message);
                 return false
             }
 
