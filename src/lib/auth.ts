@@ -6,6 +6,11 @@ import { users } from "@/models/user";
 import { eq } from "drizzle-orm";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
+import { 
+    attemptLockout, 
+    isAccountLocked, 
+    recordFailedLogin 
+} from "@/util/helpers";
 
 class CustomAuthError extends AuthError {
     message: string;
@@ -28,7 +33,7 @@ type sessionUser = {
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
         Credentials({
-            async authorize(credentials): Promise<sessionUser | null> {
+            async authorize(credentials, request: Request): Promise<sessionUser | null> {
                 try {
                     const { email, password } = await signinSchema.parseAsync(credentials);
 
@@ -43,10 +48,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         throw new CustomAuthError("Your credentials do not match.");
                     }
 
+                    // Check if the account is locked BEFORE attempting password comparison
+                    if (await isAccountLocked(currentUser.id)) {
+                        console.warn(`Authentication blocked for locked email: ${email} (User ID: ${currentUser.id}).`);
+                        throw new CustomAuthError("Account is temporarily locked. Please try again later.");
+                    }
+
                     const passwordMatch = await bcrypt.compare(password, currentUser.password)!!;
 
                     if (!passwordMatch) {
                         console.warn(`Authentication failed for email: ${email} - Incorrect password.`);
+                        // Access IP from the headers of the generic Request object
+                        const xForwardedFor = request.headers.get('x-forwarded-for');
+                        const clientIp = xForwardedFor?.split(',')[0] || request.headers.get('remote-addr') || 'UNKNOWN';
+
+                        await recordFailedLogin(currentUser.id, clientIp, 'incorrect password');
+                        // Attempt to lockout the account
+                        await attemptLockout(currentUser.id);
                         throw new CustomAuthError("Your credentials do not match.");
                     }
 
@@ -92,7 +110,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return token;
         },
         async session({ session, token }) {
-            session.user = token.user as sessionUser; 
+            session.user = token.user as sessionUser;
             return session;
         },
     },

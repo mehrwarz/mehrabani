@@ -1,6 +1,7 @@
 import { auth, signOut } from "@/lib/auth";
 import Image from "next/image";
 import Link from "next/link";
+
 export default async function Home() {
 
   const session = await auth();
@@ -19,7 +20,7 @@ export default async function Home() {
       <Image src={"/Images/logo.svg"} height={300} width={380} alt="Logo" priority={false}/>
       <br />
       Loged in with: { session?.user?.email}
-
+      < br/>
     </div>
   );
 }

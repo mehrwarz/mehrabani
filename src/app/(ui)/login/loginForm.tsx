@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
-import { authenticate } from "@/app/actions/authenticate";
+import { authenticate } from "@/app/actions/auth/authenticate";
 import Image from "next/image";
 
 

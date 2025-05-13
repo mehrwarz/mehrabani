@@ -1,4 +1,6 @@
 import { auth } from "@/lib/auth"
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
  
 export default auth((req:any) => {
     const isLogedIn = !!req.auth;
@@ -6,7 +8,13 @@ export default auth((req:any) => {
     console.log("Is loged in: ", isLogedIn)
 
   console.log("Route: ", req.nextUrl.pathname)
-})
+});
+
+export async function middleware(request: NextRequest | any) {
+  const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0] || request.ip;
+  console.log('Client IP:', clientIp);
+  return NextResponse.next();
+}
 
 
 export const config = {

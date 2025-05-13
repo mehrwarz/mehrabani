@@ -6,7 +6,7 @@ CREATE TABLE "users" (
 	"date_of_birth" date NOT NULL,
 	"email" varchar NOT NULL,
 	"password" varchar NOT NULL,
-	"role" "user_role" DEFAULT 'viewer',
+	"role" "user_role" DEFAULT 'viewer' NOT NULL,
 	"email_verified_at" timestamp,
 	"photo_url" varchar,
 	"is_disabled" boolean DEFAULT false,
@@ -43,7 +43,19 @@ CREATE TABLE "verification_tokens" (
 	"token" text NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "login_attempts" (
+	"attempt_id" serial PRIMARY KEY NOT NULL,
+	"user_id" uuid NOT NULL,
+	"login_time" timestamp with time zone DEFAULT now(),
+	"ip_address" varchar(45),
+	"failure_reason" varchar(255),
+	"lockout_until" timestamp with time zone
+);
+--> statement-breakpoint
 ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "email_idx" ON "users" USING btree ("email");--> statement-breakpoint
-CREATE INDEX "name_idx" ON "users" USING btree ("first_name","last_name");
+CREATE INDEX "name_idx" ON "users" USING btree ("first_name","last_name");--> statement-breakpoint
+CREATE INDEX "user_id_login_time_idx" ON "login_attempts" USING btree ("user_id","login_time");--> statement-breakpoint
+CREATE INDEX "ip_address_login_time_idx" ON "login_attempts" USING btree ("ip_address","login_time");--> statement-breakpoint
+CREATE INDEX "user_id_idx" ON "login_attempts" USING btree ("user_id");

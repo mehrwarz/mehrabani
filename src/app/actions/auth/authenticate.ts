@@ -1,6 +1,6 @@
 "use server"
 import { redirect } from 'next/navigation'
-import { auth, signIn } from '@/lib/auth'
+import { signIn } from '@/lib/auth'
 import z from "zod"
 
 export async function logout() {
