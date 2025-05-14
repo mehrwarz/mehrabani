@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
-const MAX_ATTEMPTS = 4;
+const MAX_ATTEMPTS = 10;
 const LOCKOUT_DURATION = 20 * 60 * 1000; // 1 hour in milliseconds
 const CLEANUP_INTERVAL = 60 * 1000; // 1 minute (adjust as needed)
 const IPsFilter = [] as any;
@@ -23,6 +23,8 @@ export async function middleware(request: NextRequest) {
 		// Get the client's IP address, considering potential proxies
 		const xForwardedFor = request.headers.get('x-forwarded-for');
 		const clientIp = xForwardedFor?.split(',')[0] || request.headers.get('remote-addr') || "Unknown IP"
+
+		console.log("Current IPsFilter list: ", IPsFilter) /// delete after test
 
 		if (!IPsFilter[clientIp]) IPsFilter[clientIp] = { attempts: 0, lockoutUntil: 0 }
 
