@@ -13,22 +13,28 @@ export default function LoginForm(){
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         try {
-            const result  = await authenticate({
+            const result = await authenticate({
                 email: event.target.email.value,
                 password: event.target.password.value,
                 csrfToken: csrfToken,
             });
+            
             if(result .success){
                 window.location.href = "/settings";
                 return
             }
             if (result .error) {
-                setError(result .error.message);
+                setError(result.error.message);
                 return false
             }
-
         } catch (error) {
-            setError("Please try again later.", error);
+            const res = await fetch("http://localhost:3000/api/auth/signin/credentials");
+            const err = await res.json();
+            if(err.error){
+                setError(err.error);
+                return
+            }
+            setError("Please try again later.");
         }
     };
 

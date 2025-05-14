@@ -2,25 +2,18 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
-// In-memory store for rate limiting (replace with Redis or similar for production)
-const loginAttemptsByIp = new Map<string, number>();
-const lockoutUntilByIp = new Map<string, Date>();
-const MAX_ATTEMPTS = 3;
-const LOCKOUT_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+const MAX_ATTEMPTS = 4;
+const LOCKOUT_DURATION = 20 * 60 * 1000; // 1 hour in milliseconds
 const CLEANUP_INTERVAL = 60 * 1000; // 1 minute (adjust as needed)
+const IPsFilter = [] as any;
 
 function cleanupLockouts() {
-    const now = new Date();
-    for (const [ip, lockoutTime] of lockoutUntilByIp.entries()) {
-        if (lockoutTime <= now) {
-            lockoutUntilByIp.delete(ip);
-        }
-    }
+	IPsFilter.filter((IP: { lockoutUntil: Date; }) => IP.lockoutUntil > new Date());
 }
 
 // Start the cleanup interval
 if (typeof window === 'undefined') { // Ensure this runs only on the server
-    setInterval(cleanupLockouts, CLEANUP_INTERVAL);
+	setInterval(cleanupLockouts, CLEANUP_INTERVAL);
 }
 
 export async function middleware(request: NextRequest) {
@@ -29,25 +22,28 @@ export async function middleware(request: NextRequest) {
 	if (pathname === "/login" || pathname === "/api/auth/signin/credentials") {
 		// Get the client's IP address, considering potential proxies
 		const xForwardedFor = request.headers.get('x-forwarded-for');
-		const clientIp = xForwardedFor?.split(',')[0] || request.headers.get('remote-addr') || 'UNKNOWN';
+		const clientIp = xForwardedFor?.split(',')[0] || request.headers.get('remote-addr') || "Unknown IP"
 
-		const lockoutUntil = lockoutUntilByIp.get(clientIp);
-		if (lockoutUntil && lockoutUntil > new Date()) {
-			const remaining = Math.ceil((lockoutUntil.getTime() - Date.now()) / 1000 / 60);
+		if (!IPsFilter[clientIp]) IPsFilter[clientIp] = { attempts: 0, lockoutUntil: 0 }
+
+
+		if (IPsFilter[clientIp].lockoutUntil > new Date()) {
+			const remaining = Math.ceil((IPsFilter[clientIp].lockoutUntil - Date.now()) / 1000 / 60);
 			console.warn(`Login blocked for IP: ${clientIp} - Account temporarily locked. Remaining: ${remaining} minutes.`);
+
 			return NextResponse.json({ error: `Account temporarily locked. Please try again after ${remaining} minutes.` }, { status: 429 }); // Too Many Requests
 		}
 
-		const attempts = loginAttemptsByIp.get(clientIp) || 0;
-		loginAttemptsByIp.set(clientIp, attempts + 1);
+		IPsFilter[clientIp].attempts++;
 
-		if (attempts + 1 > MAX_ATTEMPTS) {
+		if (IPsFilter[clientIp].attempts > MAX_ATTEMPTS) {
 			console.warn(`Login lockout triggered for IP: ${clientIp} after ${MAX_ATTEMPTS} failed attempts.`);
-			lockoutUntilByIp.set(clientIp, new Date(Date.now() + LOCKOUT_DURATION));
-			loginAttemptsByIp.delete(clientIp); // Reset attempts after lockout
-			return NextResponse.json( { error:{ message: 'Account temporarily locked due to too many failed attempts. Please try again in an hour.' }}, { status: 429 }); // Too Many Requests
+			IPsFilter[clientIp].lockoutUntil = new Date(Date.now() + LOCKOUT_DURATION)
+			IPsFilter[clientIp].attempts = 0;
+			return NextResponse.json({ error: { message: 'Account temporarily locked due to too many failed attempts. Please try again in an hour.' } }, { status: 429 }); // Too Many Requests
 		}
 	}
+
 
 	return NextResponse.next();
 }

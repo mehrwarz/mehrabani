@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { signinSchema } from "@/schemas/signin";
 import db from "@/lib/database";
 import { users } from "@/models/user";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
 import {
