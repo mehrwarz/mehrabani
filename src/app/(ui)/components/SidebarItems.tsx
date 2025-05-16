@@ -1,23 +1,28 @@
 // "use client"
 import Link from "next/link"
 
-export default function SidebarItem(menue: any, index: number) {
- 
-    if (menue.children) {
+export default function SidebarItem({item}: any, index: number) {
+
+    if (item.children) {
         return (
             <li className="has-submenu" key={index}>
-                <Link href={menue.link} aria-expanded="false" aria-controls={"link" + index}>Services</Link>
+                <Link href={item.link} aria-expanded="false" aria-controls={"link" + index}>{item.label}</Link>
+                 <span>
+                        { item.icon && <i className={item.icon}></i> }
+                        {item.title}    
+                    </span>
                 <ul className="submenu" id={"link" + index} aria-hidden="true">
-                    {menue.children.map((menues: any, index: number)=> SidebarItem(menues,index))}
+                    { item.children.map((child: any, index: number) => <SidebarItem key={index} item={child} />) }
                 </ul>
             </li>
         ) 
     } else {
+        console.log("\n"+JSON.stringify(item))
         return (
             <li key={index}>
-                <Link href={menue.item.link || "#"} key={index}>
-                    {menue.item.icon && <i className={menue.item.icon}></i>}
-                    {menue.item.label}
+                <Link href={item.link || "#"} key={index}>
+                    {item.icon && <i className={item.icon}></i>}
+                    {item.label}
                 </Link>
             </li>
         )

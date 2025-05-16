@@ -1,4 +1,6 @@
 "use client"
+import naveMenue from "@/data/navmenue"
+import Link from "next/link"
 
 export default function Navbar(){
     return (
@@ -7,8 +9,7 @@ export default function Navbar(){
                 <a href="#" className="navbar-brand">Dashboard</a>
                 <nav>
                     <div className="navbar-actions">
-                        <button>Notifications</button>
-                        <a href="#">Profile</a>
+                        { naveMenue.map((item, index) => <Link href={item.url} key={index}>{item.label}</Link>)}
                     </div>
                 </nav>
             </header>
