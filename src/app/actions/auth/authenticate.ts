@@ -1,34 +1,34 @@
 "use server"
 import { redirect } from 'next/navigation'
 import { signIn } from '@/lib/auth'
-import z from "zod"
+import { signinSchema } from '@/schemas/signin'
 
 export async function logout() {
 	redirect('/login')
 }
 
 export async function authenticate(formData: any) {
-	const { email, password, csrfToken } = formData;
-	const emailValidation = z.string().email().safeParse(email);
+	const inputValidation = signinSchema.safeParse(formData);
 
-	if (emailValidation.success == false) {
-		return { error:{message: "Invalid email address" }}
+	if (inputValidation.success == false) {
+		return { error:{message: "Invalid credentials format" }}
 	}
 
     try {
         const result = await signIn("credentials", {
             redirect: false,
-            email,
-            password,
-            csrfToken,
+            email: inputValidation.data.email,
+            password: inputValidation.data.password,
+            csrfToken: formData.csrfToken,
         });
 
         if (result?.error) {
             return { error: { message: result.error } };
         }
 
-        return { success: true, message: "Login successful", status: 200, ok: true, redirectTo: '/' }; // Indicate a redirect
+        return { success: true, message: "Login successful", status: 200, ok: true, redirectTo: '/' }; 
     } catch (err: any) {
-        return { error:{ message:err.message} }
+        console.log(err)
+        return { error:{ message:"Ops! something went wrong."} }
     }
 }

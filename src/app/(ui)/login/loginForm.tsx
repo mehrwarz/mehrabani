@@ -3,7 +3,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
 import { authenticate } from "@/app/actions/auth/authenticate";
+import { signinSchema } from "@/schemas/signin";
 import Image from "next/image";
+import { ZodError } from "zod";
 
 
 export default function LoginForm(){
@@ -13,17 +15,25 @@ export default function LoginForm(){
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         try {
-            const result = await authenticate({
+            const formData = {
                 email: event.target.email.value,
                 password: event.target.password.value,
-                csrfToken: csrfToken,
-            });
+                csrfToken: csrfToken
+            };
+
+            const validation = signinSchema.safeParse(formData)
+
+            if(validation.error instanceof ZodError ){
+                validation.error.errors.map(err => setError(err+"\n"));
+            }
+
+            const result = await authenticate(formData);
             
             if(result .success){
                 window.location.href = "/settings";
                 return
             }
-            if (result .error) {
+            if (result.error) {
                 setError(result.error.message);
                 return false
             }

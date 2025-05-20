@@ -1,17 +1,25 @@
 export const authRoutes = [
     "/auth/login",
-    "/auth/login",
-    "/auth/login",
+    "/auth/register",
 ]
 
-
+export const APIprefix = "/api/auth"
 
 /**
- * API routes
+ * Public routes
  * 
  * @type (string[])
  */
 
 export const publicRoutes = [
-    "/api"
+    "/",
+    "/about",
+    "contact",
+    "services"
 ]
+
+export const authenticatedRoutes = [
+    "/worspace",
+]
+
+export const LOGIN_REDIRECT = "/workspace"

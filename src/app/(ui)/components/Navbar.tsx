@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default function Navbar(){
     return (
-        <header>
+        <header className="header-nav">
                 <button className="toggle-sidebar">☰</button>
                 <a href="#" className="navbar-brand">Dashboard</a>
                 <nav>

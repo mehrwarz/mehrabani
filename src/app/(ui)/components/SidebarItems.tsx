@@ -17,7 +17,6 @@ export default function SidebarItem({item}: any, index: number) {
             </li>
         ) 
     } else {
-        console.log("\n"+JSON.stringify(item))
         return (
             <li key={index}>
                 <Link href={item.link || "#"} key={index}>
