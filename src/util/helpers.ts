@@ -49,6 +49,7 @@ import {
     LOCKOUT_DURATION_MINUTES,
     MAX_FAILED_ATTEMPTS
 } from "@/configs/authConfig";
+import { NextRequest } from 'next/server';
 
 export async function recordFailedLogin(userId: string, ipAddress: string, failureReason: string) {
     try {
