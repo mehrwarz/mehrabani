@@ -1,5 +1,5 @@
 "use server";
-import { users } from "@/models/user"
+import { Users } from "@/models/user"
 import { signupSchema } from "@/schemas/signUp";
 import db from "@/lib/database"
 import { eq } from "drizzle-orm"
@@ -14,7 +14,7 @@ export async function signUp(props: {}) {
 
 		let validData = validation.data as any;
 
-		const existUser = await db.select().from(users).where(eq(users.email, validData.email)).limit(1);
+		const existUser = await db.select().from(Users).where(eq(Users.email, validData.email)).limit(1);
 
 		if (existUser.length > 0) {
 			return { failure: { message: "The email address is already in use" } }
@@ -22,7 +22,7 @@ export async function signUp(props: {}) {
 
 		validData.password = await saltAndHashPassword(validData.password, 10);
 
-		const [result] = await db.insert(users).values(validData).returning();
+		const [result] = await db.insert(Users).values(validData).returning();
 
 		if (result.id) {
 			return { success: "You are fully registered" }

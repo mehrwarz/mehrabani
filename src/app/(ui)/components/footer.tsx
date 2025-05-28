@@ -1,26 +1,31 @@
 export default function Footer() {
     return (
         <footer className="footer">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-6 order-last order-md-first">
-              <div className="copyright text-center text-md-start">
-                <p className="text-sm">
-                  Designed and Developed by
-                  <a href="https://plainadmin.com" rel="nofollow" target="_blank">
-                    PlainAdmin
+          <div className="container-fluid d-flex justify-content-between">
+            <nav className="pull-left">
+              <ul className="nav">
+                <li className="nav-item">
+                  <a className="nav-link" href="http://www.themekita.com">
+                    ThemeKita
                   </a>
-                </p>
-              </div>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#"> Help </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#"> Licenses </a>
+                </li>
+              </ul>
+            </nav>
+            <div className="copyright">
+              2024, made with <i className="fa fa-heart heart text-danger"></i> by
+              <a href="http://www.themekita.com">ThemeKita</a>
             </div>
-            <div className="col-md-6">
-              <div className="terms d-flex justify-content-center justify-content-md-end">
-                <a href="#0" className="text-sm">Term & Conditions</a>
-                <a href="#0" className="text-sm ml-15">Privacy & Policy</a>
-              </div>
+            <div>
+              Distributed by
+              <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
             </div>
           </div>
-        </div>
-      </footer>
+        </footer>
     )
 }

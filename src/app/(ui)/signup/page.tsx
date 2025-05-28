@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
 import { signUp } from "@/app/actions/auth/signup"
 
@@ -84,7 +84,7 @@ export default function Singup() {
 				<div className="card-body">
 					<div className="row w-100 d-flex justify-content-center align-items-center">
 						<div className="col-auto">
-							<Image src="/Images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} priority />
+							<Image src="/assets/Images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} priority />
 						</div>
 						<div className="col">
 							<form onSubmit={handleSubmit} className="row g-3 pb-4 " >
