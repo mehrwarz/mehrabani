@@ -1,11 +1,11 @@
 import { AdapterAccountType } from "next-auth/adapters";
-import { users } from "./user";
+import { Users } from "./user";
 import { integer, pgTable, uuid, primaryKey, varchar, text, serial } from "drizzle-orm/pg-core";
 
 export const Accounts = pgTable('accounts',
     {
         id: serial('id').primaryKey(),
-        userId: uuid('user_id').notNull().references(() => users.id, { onDelete: "cascade" }),
+        userId: uuid('user_id').notNull().references(() => Users.id, { onDelete: "cascade" }),
         type: varchar("token_type").$type<AdapterAccountType>().notNull(),
         provider: text("provider").notNull(),
         providerAccountId: text("provider_account_id").notNull(),

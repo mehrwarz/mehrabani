@@ -1,7 +1,7 @@
 import Credentials from "next-auth/providers/credentials";
 import { signinSchema } from "@/schemas/signin";
 import db from "@/lib/database";
-import { users } from "@/models/user";
+import { Users } from "@/models/user";
 import { eq } from "drizzle-orm";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
@@ -22,11 +22,8 @@ class CustomAuthError extends AuthError {
 
 type sessionUser = {
     id: string,
-    firstName: string,
-    lastName: string,
     email: string,
     role: string,
-    photoUrl: string | null,
     emailVerified: Date | null,
 }
 
@@ -39,8 +36,8 @@ export default {
 
                     const [currentUser] = await db
                         .select()
-                        .from(users)
-                        .where(eq(users.email, email))
+                        .from(Users)
+                        .where(eq(Users.email, email))
                         .limit(1);
 
                     if (!currentUser) {
@@ -70,11 +67,8 @@ export default {
 
                     const user: sessionUser = {
                         id: currentUser.id,
-                        firstName: currentUser.firstName,
-                        lastName: currentUser.lastName,
                         email: currentUser.email,
                         role: currentUser.role,
-                        photoUrl: currentUser.photoUrl,
                         emailVerified: currentUser.emailVerifiedAt,
                     };
 
