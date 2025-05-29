@@ -1,26 +1,48 @@
-import Script from "next/script";
+import Script from 'next/script';
 import Footer from "../components/footer";
 import MainHeader from "../components/mainHeader";
 import Sidebar from "../components/sidebar";
 import Breadcrumbs from "../components/breadcrumbs";
-import "../../../../public/assets/css/fonts.min.css"
-import { fontAwesomeBrands, fontAwesomeRegular, fontAwesomeSolid, simpleLineIcons,  } from "@/lib/fonts";
+import { ReactNode } from 'react';
 
-export default function Workspace({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
-
+export default function WorkSpace( { children }: { children: React.ReactNode } ) {
 	return (
+		<div>
+			<Script
+				src="/assets/js/plugin/webfont/webfont.min.js"
+				strategy="beforeInteractive" // Loads before React hydrate
+			/>
 
-		<div className={`wrapper ${fontAwesomeSolid.variable} ${fontAwesomeRegular.variable} ${fontAwesomeBrands.variable} ${simpleLineIcons.variable}`}>
+			{/* Inline script for WebFont.load */}
+			<Script
+				id="webfont-loader" // Unique ID for the script
+				strategy="lazyOnload" // Loads after the page becomes interactive
+			>
+				{`
+          WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+              families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+              ],
+              urls: ["/assets/css/fonts.min.css"], // Use public path
+            },
+            active: function () {
+              sessionStorage.fonts = true;
+            },
+          });
+        `}
+			</Script>
+
 			<Sidebar />
 			<div className="main-panel">
 				<MainHeader />
 				<div className="container">
 					<div className="page-inner">
-						<Breadcrumbs params={{page: "Work space", url: "/workspace/profile/sdfghj"} } />
+						<Breadcrumbs title="Home" capitalize />
 						<div className="page-category">{children}</div>
 					</div>
 				</div>

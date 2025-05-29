@@ -84,7 +84,7 @@ export default function Singup() {
 				<div className="card-body">
 					<div className="row w-100 d-flex justify-content-center align-items-center">
 						<div className="col-auto">
-							<Image src="/assets/Images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} priority />
+							<Image src="/assets/images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} priority />
 						</div>
 						<div className="col">
 							<form onSubmit={handleSubmit} className="row g-3 pb-4 " >

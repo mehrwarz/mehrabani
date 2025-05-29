@@ -8,7 +8,7 @@ export default function Sidebar({ props }: any) {
             <div className="sidebar-logo">
                 <div className="logo-header" data-background-color="dark">
                     <a href="index.html" className="logo">
-                        <img src="/assets/Images/logo.svg" alt="navbar brand" className="navbar-brand" height="20" />
+                        <img src="/assets/images/logo.svg" alt="navbar brand" className="navbar-brand" height="20" />
                     </a>
                     <div className="nav-toggle">
                         <button className="btn btn-toggle toggle-sidebar">

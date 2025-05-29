@@ -17,7 +17,7 @@ export default async function Home() {
     </form>
     <Link href={"/login"}><input type="button" value={"Login"}/></Link>
       <h1>Home page. </h1>
-      <Image src={"/assets/Images/logo.svg"} height={300} width={380} alt="Logo" priority={false}/>
+      <Image src={"/assets/images/logo.svg"} height={300} width={380} alt="Logo" priority={false}/>
       <br />
       Loged in with: { session?.user?.email}
       < br/>

@@ -62,7 +62,7 @@ export default function LoginForm(){
                     <div className="card-header bg-primary text-white text-center fw-bold w-100">Login</div>
                     <div className="card-body">
                         <div className="d-flex w-100">
-                            <Image src="/assets/Images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} priority />
+                            <Image src="/assets/images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} priority />
                         </div>
                         <form onSubmit={handleSubmit} className="p-4">
                             <div className="mb-3">
