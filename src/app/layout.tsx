@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Mehrabani",
@@ -14,6 +15,34 @@ export default function RootLayout({
   return (
     <html data-theme="light" lang="en">
       <head>
+        <Script
+				src="/assets/js/plugin/webfont/webfont.min.js"
+				strategy="beforeInteractive" // Loads before React hydrate
+			/>
+
+			{/* Inline script for WebFont.load */}
+			<Script
+				id="webfont-loader" // Unique ID for the script
+				strategy="lazyOnload" // Loads after the page becomes interactive
+			>
+				{`
+          WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+              families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+              ],
+              urls: ["/assets/css/fonts.min.css"], // Use public path
+            },
+            active: function () {
+              sessionStorage.fonts = true;
+            },
+          });
+        `}
+			</Script>
         <meta charSet="UTF-8" />
         <title>{process.env.APP_NAME}</title>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

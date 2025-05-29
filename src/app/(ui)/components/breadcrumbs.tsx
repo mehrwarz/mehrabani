@@ -1,18 +1,14 @@
 "use client"
 
-import React, { ReactNode } from 'react'
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation'
+import React from 'react'
 import Link from 'next/link'
-import path from 'path'
 
-type BreadCrumbProps = {title: string, capitalize?: boolean }
+type BreadCrumbProps = {title: string, paths:string, capitalize?: boolean }
 
-export default function Breadcrumbs({ title, capitalize }: BreadCrumbProps) {
-    const paths = usePathname()
+export default function Breadcrumbs({ title, paths, capitalize }: BreadCrumbProps) {
     const pathNames = paths.split('/').filter(path => path)
     return (
-        <div className="page-header">
+        <div className="page-header d-flex justify-content-between">
             <h4 className="page-title">{title}</h4>
             <ul className="breadcrumbs">
                 {

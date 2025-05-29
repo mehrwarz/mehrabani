@@ -2,48 +2,20 @@ import Script from 'next/script';
 import Footer from "../components/footer";
 import MainHeader from "../components/mainHeader";
 import Sidebar from "../components/sidebar";
-import Breadcrumbs from "../components/breadcrumbs";
-import { ReactNode } from 'react';
+import { cookies } from 'next/headers';
 
-export default function WorkSpace( { children }: { children: React.ReactNode } ) {
+
+export default async function WorkSpace( { children }: { children: React.ReactNode } ) {
+	   	const cookieStore = await cookies();
+		const pageTitle = cookieStore.get("pageTitle") || ""
 	return (
 		<div>
-			<Script
-				src="/assets/js/plugin/webfont/webfont.min.js"
-				strategy="beforeInteractive" // Loads before React hydrate
-			/>
-
-			{/* Inline script for WebFont.load */}
-			<Script
-				id="webfont-loader" // Unique ID for the script
-				strategy="lazyOnload" // Loads after the page becomes interactive
-			>
-				{`
-          WebFont.load({
-            google: { families: ["Public Sans:300,400,500,600,700"] },
-            custom: {
-              families: [
-                "Font Awesome 5 Solid",
-                "Font Awesome 5 Regular",
-                "Font Awesome 5 Brands",
-                "simple-line-icons",
-              ],
-              urls: ["/assets/css/fonts.min.css"], // Use public path
-            },
-            active: function () {
-              sessionStorage.fonts = true;
-            },
-          });
-        `}
-			</Script>
-
-			<Sidebar />
+						<Sidebar />
 			<div className="main-panel">
 				<MainHeader />
 				<div className="container">
 					<div className="page-inner">
-						<Breadcrumbs title="Home" capitalize />
-						<div className="page-category">{children}</div>
+						{ children}
 					</div>
 				</div>
 				<Footer />
