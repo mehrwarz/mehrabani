@@ -1,15 +1,29 @@
 "use client";
-
+import Head from "next/head";
+import Script from "next/script";
 import { useEffect } from "react";
 
 export default function Table({ id, heading, data }: { id: string; heading: string[]; data: string[][] }) {
-
-
-useEffect(() => {
+  useEffect(() => {
   const interval = setInterval(() => {
     if ($(`#${id}`).length && typeof $.fn.DataTable === "function") {
       clearInterval(interval); // Stop checking
-      $(`#${id}`).DataTable({});
+      $(`#${id}`).DataTable({
+        data: data,
+        columns: [
+          data[1],
+          data[2],
+          data[3],
+          data[4],
+          {
+            'val': data[5],
+            'render': function(val) {
+              return "(" + val + ")"
+            }
+          },
+          data[6],
+        ]
+      });
 
       $("#multi-filter-select").DataTable({
         pageLength: 5,
@@ -61,35 +75,41 @@ useEffect(() => {
   return () => clearInterval(interval); // Cleanup interval on unmount
 }, [id]);
 
-
-    return (
-        <div className="table-responsive">
-            <table id={id} className="display table table-striped table-hover">
-                <thead>
-                    <tr>
-                        {heading.map((head, index) => (
-                            <th key={index}>{head}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        {heading.map((head, index) => (
-                            <th key={index}>{head}</th>
-                        ))}
-                    </tr>
-                </tfoot>
-                <tbody>
-                    {data.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {row.map((cell, cellIndex) => (
-                                <td key={cellIndex}>{cell}</td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
+  return (
+    <>
+      <Head>
+        <link rel="stylesheet" href="/assets/css/dataTables.css" />
+      </Head>
+      <div className="table-responsive">
+        <table id={id} className="display table table-striped table-hover">
+          <thead>
+            <tr>
+              {heading.map((head, index) => (
+                <th key={index}>{head}</th>
+              ))}
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              {heading.map((head, index) => (
+                <th key={index}>{head}</th>
+              ))}
+            </tr>
+          </tfoot>
+          {/* <tbody>
+            {data.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex}>{cell}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody> */}
+        </table>
+      </div>
+      <Script defer src="/assets/js/core/jquery-3.7.1.js"></Script>
+      <Script defer src="/assets/js/plugin/datatables/datatables.min.js"></Script>
+    </>
+  );
 }
 

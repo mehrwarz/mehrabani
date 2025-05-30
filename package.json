@@ -17,6 +17,7 @@
     "@auth/neon-adapter": "^1.9.0",
     "@neondatabase/serverless": "^1.0.0",
     "bcryptjs": "^3.0.2",
+    "datatables.net-scroller-dt": "^2.4.3",
     "drizzle-orm": "^0.43.1",
     "next": "15.3.1",
     "next-auth": "^5.0.0-beta.27",
