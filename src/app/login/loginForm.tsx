@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
-import { authenticate } from "@/app/actions/auth/authenticate";
+import { authenticate } from "@/actions/auth/authenticate";
 import { signinSchema } from "@/schemas/signin";
 import Image from "next/image";
 import { ZodError } from "zod";

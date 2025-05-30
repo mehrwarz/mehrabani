@@ -39,14 +39,19 @@ export default function Sidebar({ props }: any) {
                                 aria-expanded="false"
                             >
                                 <i className="fas fa-home"></i>
-                                <p>Dashboard</p>
+                                <p>Clients</p>
                                 <span className="caret"></span>
                             </Link>
                             <div className="collapse" id="dashboard">
                                 <ul className="nav nav-collapse">
                                     <li>
-                                        <Link href="../demo1/index.html">
-                                            <span className="sub-item">Dashboard 1</span>
+                                        <Link href="/workspace/client">
+                                            <span className="sub-item">Clients List</span>
+                                        </Link>
+                                    </li>
+                                     <li>
+                                        <Link href="/workspace/client/add">
+                                            <span className="sub-item">Add New Client</span>
                                         </Link>
                                     </li>
                                 </ul>

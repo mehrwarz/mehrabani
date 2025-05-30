@@ -11,14 +11,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
+  
   return (
     <html data-theme="light" lang="en">
       <head>
+      <meta charSet="UTF-8" />
+      <title>{process.env.APP_NAME}</title>
         <Script
-				src="/assets/js/plugin/webfont/webfont.min.js"
-				strategy="beforeInteractive" // Loads before React hydrate
-			/>
+				src="/assets/js/plugin/webfont/webfont.min.js" strategy="beforeInteractive" />
 
 			{/* Inline script for WebFont.load */}
 			<Script
@@ -43,8 +43,6 @@ export default function RootLayout({
           });
         `}
 			</Script>
-        <meta charSet="UTF-8" />
-        <title>{process.env.APP_NAME}</title>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" href="http://localhost:3000/assets/images/favicon.svg" type="image/x-icon" />

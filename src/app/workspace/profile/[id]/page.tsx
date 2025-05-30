@@ -1,4 +1,4 @@
-import Breadcrumbs from '@/app/(ui)/components/breadcrumbs';
+import Breadcrumbs from '@/app/components/breadcrumbs';
 
 export default async function Page({ params }: any) {
     const { id } = await params;

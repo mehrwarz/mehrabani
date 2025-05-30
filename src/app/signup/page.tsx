@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getCsrfToken } from "next-auth/react";
-import { signUp } from "@/app/actions/auth/signup"
+import { signUp } from "@/actions/auth/signup"
 
 interface register {
 	error: [{}],
