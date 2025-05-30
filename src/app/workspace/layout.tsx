@@ -17,7 +17,6 @@ export default async function WorkSpace({ children }: { children: React.ReactNod
 				</div>
 				<Footer />
 			</div>
-			<Script src="/assets/js/core/bootstrap.min.js"></Script>
 		</div>
 	)
 }

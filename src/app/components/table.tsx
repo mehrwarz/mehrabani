@@ -7,7 +7,7 @@ export default function Table({ id, heading, data }: { id: string; heading: stri
   useEffect(() => {
   const interval = setInterval(() => {
     if ($(`#${id}`).length && typeof $.fn.DataTable === "function") {
-      clearInterval(interval); // Stop checking
+      clearInterval(interval); 
       $(`#${id}`).DataTable({
         data: data,
         columns: [
@@ -96,15 +96,6 @@ export default function Table({ id, heading, data }: { id: string; heading: stri
               ))}
             </tr>
           </tfoot>
-          {/* <tbody>
-            {data.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>{cell}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody> */}
         </table>
       </div>
       <Script defer src="/assets/js/core/jquery-3.7.1.js"></Script>

@@ -59,7 +59,7 @@ export default function Sidebar({ props }: any) {
                         </li>
                         <li className="nav-section">
                             <span className="sidebar-mini-icon">
-                                <i className="fa fa-ellipsis-h"></i>
+                                <i className="fas fa-ellipsis-h"></i>HH
                             </span>
                             <h4 className="text-section">Components</h4>
                         </li>
@@ -79,41 +79,6 @@ export default function Sidebar({ props }: any) {
                                     <li>
                                         <Link href="components/buttons.html">
                                             <span className="sub-item">Buttons</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="components/gridsystem.html">
-                                            <span className="sub-item">Grid System</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="components/panels.html">
-                                            <span className="sub-item">Panels</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="components/notifications.html">
-                                            <span className="sub-item">Notifications</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="components/sweetalert.html">
-                                            <span className="sub-item">Sweet Alert</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="components/font-awesome-icons.html">
-                                            <span className="sub-item">Font Awesome Icons</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="components/simple-line-icons.html">
-                                            <span className="sub-item">Simple Line Icons</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="components/typography.html">
-                                            <span className="sub-item">Typography</span>
                                         </Link>
                                     </li>
                                 </ul>
@@ -141,93 +106,7 @@ export default function Sidebar({ props }: any) {
                             </div>
                         </li>
                         <li className="nav-item">
-                            <Link data-bs-toggle="collapse" href="#forms">
-                                <i className="fas fa-pen-square"></i>
-                                <p>Forms</p>
-                                <span className="caret"></span>
-                            </Link>
-                            <div className="collapse" id="forms">
-                                <ul className="nav nav-collapse">
-                                    <li>
-                                        <Link href="forms/forms.html">
-                                            <span className="sub-item">Basic Form</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <Link data-bs-toggle="collapse" href="#tables">
-                                <i className="fas fa-table"></i>
-                                <p>Tables</p>
-                                <span className="caret"></span>
-                            </Link>
-                            <div className="collapse" id="tables">
-                                <ul className="nav nav-collapse">
-                                    <li>
-                                        <Link href="tables/tables.html">
-                                            <span className="sub-item">Basic Table</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="tables/datatables.html">
-                                            <span className="sub-item">Datatables</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <Link data-bs-toggle="collapse" href="#maps">
-                                <i className="fas fa-map-marker-alt"></i>
-                                <p>Maps</p>
-                                <span className="caret"></span>
-                            </Link>
-                            <div className="collapse" id="maps">
-                                <ul className="nav nav-collapse">
-                                    <li>
-                                        <Link href="maps/googlemaps.html">
-                                            <span className="sub-item">Google Maps</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="maps/jsvectormap.html">
-                                            <span className="sub-item">Jsvectormap</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <Link data-bs-toggle="collapse" href="#charts">
-                                <i className="far fa-chart-bar"></i>
-                                <p>Charts</p>
-                                <span className="caret"></span>
-                            </Link>
-                            <div className="collapse" id="charts">
-                                <ul className="nav nav-collapse">
-                                    <li>
-                                        <Link href="charts/charts.html">
-                                            <span className="sub-item">Chart Js</span>
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="charts/sparkline.html">
-                                            <span className="sub-item">Sparkline</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="widgets.html">
-                                <i className="fas fa-desktop"></i>
-                                <p>Widgets</p>
-                                <span className="badge badge-success">4</span>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link href="../../documentation/index.html">
+                            <Link href="#">
                                 <i className="fas fa-file"></i>
                                 <p>Documentation</p>
                                 <span className="badge badge-secondary">1</span>
