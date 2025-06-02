@@ -1,9 +1,29 @@
+"use client"
 import Breadcrumbs from "@/app/components/breadcrumbs";
 import Table from "@/app/components/table";
 import { Clients } from "@/data/clients"
 import Link from "next/link";
 
+
+
 export default function Client() {
+    const config = {
+        data: Clients,
+        columns: [
+            {data: 'name'},
+            {data: 'position'},
+            {data: 'office'},
+            {
+                data: 'age',
+                render: (data: string)=> {
+                    return data + " years old"
+                }
+            },
+            {data: 'startDate'},
+            {data: 'salary'},
+        ]
+    }
+
     return (
         <>
             <Breadcrumbs title="Clients" paths="/workspace/client" capitalize />
@@ -27,7 +47,7 @@ export default function Client() {
                             </div>
                         </div>
                         <div className="card-body">
-                            <Table id="clients" heading={["Name", "Position", "Office", "Age", "Start date", "Salary"]} data={Clients} />
+                            <Table id="clients" heading={["Name", "Position", "Office", "Age", "Start date", "Salary"]} config={config} />
                         </div>
                     </div>
                 </div>
