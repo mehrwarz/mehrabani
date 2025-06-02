@@ -93,6 +93,30 @@ export default function Sidebar() {
                         <a href="#"><span className="material-symbols-outlined">
                             notifications_active </span>Notifications</a>
                     </li>
+                    <li className={`submenu ${isSubmenuActive ? 'active' : ''}`}>
+                        <a href="#" onClick={toggleSubmenu}>
+                            <span className="material-symbols-outlined">folder</span>Projects
+                            <span className="material-symbols-outlined expand-icon">
+                                {isSubmenuActive ? 'expand_less' : 'expand_more'}
+                            </span>
+                        </a>
+                        <ul className="sub-menu">
+                            <li><a href="#">Project 1</a></li>
+                            <li><a href="#">Project 2</a></li>
+                        </ul>
+                    </li>
+                    <li className={`submenu ${isSubmenuActive ? 'active' : ''}`}>
+                        <a href="#" onClick={toggleSubmenu}>
+                            <span className="material-symbols-outlined">folder</span>Projects
+                            <span className="material-symbols-outlined expand-icon">
+                                {isSubmenuActive ? 'expand_less' : 'expand_more'}
+                            </span>
+                        </a>
+                        <ul className="sub-menu">
+                            <li><a href="#">Project 1</a></li>
+                            <li><a href="#">Project 2</a></li>
+                        </ul>
+                    </li>
                     <h4>
                         <span>Account</span>
                         <div className="menu-separator"></div>
