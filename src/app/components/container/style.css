@@ -1,0 +1,77 @@
+.page-container {
+  min-height: 100vh;
+  padding-left: 280px;
+  transition: all 0.2s ease;
+}
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+  .page-container {
+    padding-left: 70px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .page-container {
+    padding-left: 0;
+  }
+}
+
+.main-content {
+  padding: 85px 20px 20px;
+  min-height: calc(100vh - 61px);
+}
+@media screen and (max-width: 991px) {
+  .main-content {
+    padding: 85px 5px 5px;
+  }
+}
+
+.remain-height {
+  height: calc(100vh - 126px);
+}
+
+.full-container {
+  left: 280px;
+  min-height: calc(100vh - 65px);
+  position: absolute;
+  right: 0;
+  top: 65px;
+  transition: all 0.2s ease;
+}
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+  .full-container {
+    left: 0;
+    padding-left: 70px;
+  }
+}
+@media screen and (max-width: 991px) {
+  .full-container {
+    left: 0;
+  }
+}
+
+.is-collapsed .page-container {
+  padding-left: 70px;
+}
+@media screen and (max-width: 991px) {
+  .is-collapsed .page-container {
+    padding-left: 0;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+  .is-collapsed .page-container {
+    padding-left: 280px;
+  }
+}
+.is-collapsed .full-container {
+  left: 70px;
+}
+@media screen and (max-width: 991px) {
+  .is-collapsed .full-container {
+    left: 0;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+  .is-collapsed .full-container {
+    left: 280px;
+    padding-left: 0;
+  }
+}

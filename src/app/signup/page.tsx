@@ -78,15 +78,15 @@ export default function Singup() {
 
 
 	return (
-		<div className="container-fluid d-flex justify-content-center align-items-center vh-100 vw-100 gradient">
-			<div className="mx-auto card shadow m-0 p-0 col-md-8 col-lg-6 ">
-				<div className="card-header bg-primary text-white text-center fw-bold w-100">Signup</div>
+		<div className="container-fluid d-flex justify-content-center align-items-center vh-100 vw-100 bf-info">
+			<div className="card shadow m-0 p-0 col-md-6 col-lg-4 ">
+				<div className="card-header bg-light">
+							<Image src="/assets/images/logo.svg" className="image-fluid mx-auto d-block" alt="Mehrabani" width={100} height={100} priority />
+						</div>
+						
 				<div className="card-body">
 					<div className="row w-100 d-flex justify-content-center align-items-center">
-						<div className="col-auto">
-							<Image src="/assets/images/logo.svg" className="mx-auto" alt="Mehrabani" width={190} height={150} priority />
-						</div>
-						<div className="col">
+						<div className="col px-5">
 							<form onSubmit={handleSubmit} className="row g-3 pb-4 " >
 								<div className="w-100">
 									<label htmlFor="firstName" className="form-label">First Name</label>
@@ -136,7 +136,7 @@ export default function Singup() {
 										{error?.password && <div className="text-danger">{error.password}</div>}
 									</div>
 								</div>
-								<div className="w-100">
+								<div className="w-100 pt-4">
 									<button type="submit" className="btn btn-primary">Submit</button>
 								</div>
 							</form>
@@ -148,7 +148,7 @@ export default function Singup() {
 						</div>
 					</div>
 				</div>
-			</div >
-		</div >
+			</div>
+		</div>
 	)
 }

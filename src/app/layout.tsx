@@ -1,17 +1,15 @@
-import "./globals.css";
-
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-
+import Script from 'next/script'
+import './globals.css'
+ 
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{process.env.APP_NAME}</title>
-      </head>
-      <body>
-        {children}
-      </body>
+      <body className='h-100 w-100'>{children}</body>
+      <Script defer src='/assets/bootstrap/bootstrap.bundle.min.js'></Script>
     </html>
-  );
+  )
 }

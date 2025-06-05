@@ -1,0 +1,15 @@
+ @font-face {
+  font-family: 'Inter';
+  src: url('./inner.woff2') format('woff2');
+  font-weight: 400, 700;
+  font-style: normal;
+  font-display: swap; /* Important for performance/user experience */
+}
+
+ @font-face {
+  font-family: 'Open Sans';
+  src: url('./opensans.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap; /* Important for performance/user experience */
+}
