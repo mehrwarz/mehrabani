@@ -4,226 +4,37 @@ import Image from "next/image";
 import "./style.css";
 
 export default function TopNav() {
-    return (
-        <div className="header navbar">
-          <div className="header-container">
-            <ul className="nav-left">
-              <li>
-                <a id='sidebar-toggle' className="sidebar-toggle" href="javascript:void(0);">
-                  <i className="ti-menu"></i>
-                </a>
-              </li>
-              <li className="search-box">
-                <a className="search-toggle no-pdd-right" href="javascript:void(0);">
-                  <i className="search-icon ti-search pdd-right-10"></i>
-                  <i className="search-icon-close ti-close pdd-right-10"></i>
-                </a>
-              </li>
-              <li className="search-input">
-                <input className="form-control" type="text" placeholder="Search..." id="search"/>
-              </li>
-            </ul>
-            <ul className="nav-right">
-              <li className="notifications dropdown"> 
-                <span className="counter bgc-red">3</span>
-                <a href="" className="dropdown-toggle no-after" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i className="ti-bell"></i>
-                </a>
-
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <li className="pX-20 pY-15 bdB">
-                    <i className="ti-bell pR-10"></i>
-                    <span className="fsz-sm fw-600 c-grey-900">Notifications</span>
-                  </li>
-                  <li>
-                    <ul className="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
-                      <li>
-                        <a href="" className='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
-                          <div className="peer mR-15">
-                            <Image className="w-3r bdrs-50p" src="/assets/images/example1.jpeg" alt="" height={20} width={20} />
-                          </div>
-                          <div className="peer peer-greed">
-                            <span>
-                              <span className="fw-500">John Doe</span>
-                              <span className="c-grey-600">liked your <span className="text-dark">post</span>
-                              </span>
-                            </span>
-                            <p className="m-0">
-                              <small className="fsz-xs">5 mins ago</small>
-                            </p>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" className='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
-                          <div className="peer mR-15">
-                            <Image className="w-3r bdrs-50p" src="/assets/images/example1.jpeg" alt="" height={20} width={20} />
-                          </div>
-                          <div className="peer peer-greed">
-                            <span>
-                              <span className="fw-500">Moo Doe</span>
-                              <span className="c-grey-600">liked your <span className="text-dark">cover image</span>
-                              </span>
-                            </span>
-                            <p className="m-0">
-                              <small className="fsz-xs">7 mins ago</small>
-                            </p>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" className='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
-                          <div className="peer mR-15">
-                            <Image className="w-3r bdrs-50p" src="/assets/images/example1.jpeg" alt="" height={20} width={20} />
-                          </div>
-                          <div className="peer peer-greed">
-                            <span>
-                              <span className="fw-500">Lee Doe</span>
-                              <span className="c-grey-600">commented on your <span className="text-dark">video</span>
-                              </span>
-                            </span>
-                            <p className="m-0">
-                              <small className="fsz-xs">10 mins ago</small>
-                            </p>
-                          </div>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="pX-20 pY-15 ta-c bdT">
-                    <span>
-                      <a href="" className="c-grey-600 cH-blue fsz-sm td-n">View All Notifications <i className="ti-angle-right fsz-xs mL-10"></i></a>
-                    </span>
-                  </li>
-                </ul>
-              </li>
-              <li className="notifications dropdown">
-                <span className="counter bgc-blue">3</span>
-                <a href="" className="dropdown-toggle no-after" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i className="ti-email"></i>
-                </a>
-
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <li className="pX-20 pY-15 bdB">
-                    <i className="ti-email pR-10"></i>
-                    <span className="fsz-sm fw-600 c-grey-900">Emails</span>
-                  </li>
-                  <li>
-                    <ul className="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
-                      <li>
-                        <a href="" className='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
-                          <div className="peer mR-15">
-                            <Image className="w-3r bdrs-50p" src="/assets/images/example1.jpeg" alt="" height={20} width={20} />
-                          </div>
-                          <div className="peer peer-greed">
-                            <div>
-                              <div className="peers jc-sb fxw-nw mB-5">
-                                <div className="peer">
-                                  <p className="fw-500 mB-0">John Doe</p>
-                                </div>
-                                <div className="peer">
-                                  <small className="fsz-xs">5 mins ago</small>
-                                </div>
-                              </div>
-                              <span className="c-grey-600 fsz-sm">
-                                Want to create your own customized data generator for your app...
-                              </span>
-                            </div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" className='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
-                          <div className="peer mR-15">
-                            <Image className="w-3r bdrs-50p" src="/assets/images/example1.jpeg" alt="" height={20} width={20} />
-                          </div>
-                          <div className="peer peer-greed">
-                            <div>
-                              <div className="peers jc-sb fxw-nw mB-5">
-                                <div className="peer">
-                                  <p className="fw-500 mB-0">Moo Doe</p>
-                                </div>
-                                <div className="peer">
-                                  <small className="fsz-xs">15 mins ago</small>
-                                </div>
-                              </div>
-                              <span className="c-grey-600 fsz-sm">
-                                Want to create your own customized data generator for your app...
-                              </span>
-                            </div>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" className='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
-                          <div className="peer mR-15">
-                            <Image className="w-3r bdrs-50p" src="/assets/images/example1.jpeg" alt="" height={20} width={20} />
-                          </div>
-                          <div className="peer peer-greed">
-                            <div>
-                              <div className="peers jc-sb fxw-nw mB-5">
-                                <div className="peer">
-                                  <p className="fw-500 mB-0">Lee Doe</p>
-                                </div>
-                                <div className="peer">
-                                  <small className="fsz-xs">25 mins ago</small>
-                                </div>
-                              </div>
-                              <span className="c-grey-600 fsz-sm">
-                                Want to create your own customized data generator for your app...
-                              </span>
-                            </div>
-                          </div>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="pX-20 pY-15 ta-c bdT">
-                    <span>
-                      <a href="email.html" className="c-grey-600 cH-blue fsz-sm td-n">View All Email <i className="fs-xs ti-angle-right mL-10"></i></a>
-                    </span>
-                  </li>
-                </ul>
-              </li>
-              <li className="dropdown">
-                <a href="" className="dropdown-toggle no-after peers fxw-nw ai-c lh-1" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                  <div className="peer mR-10">
-                    <Image className="w-2r bdrs-50p" src="/assets/images/example1.jpeg" alt="" height={10} width={10} />
-                  </div>
-                  <div className="peer">
-                    <span className="fsz-sm c-grey-900">John Doe</span>
-                  </div>
-                </a>
-                <ul className="dropdown-menu fsz-sm" aria-labelledby="dropdownMenuLink">
-                  <li>
-                    <a href="" className="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
-                      <i className="ti-settings mR-10"></i>
-                      <span>Setting</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="" className="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
-                      <i className="ti-user mR-10"></i>
-                      <span>Profile</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="email.html" className="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
-                      <i className="ti-email mR-10"></i>
-                      <span>Messages</span>
-                    </a>
-                  </li>
-                  <li role="separator" className="divider"></li>
-                  <li>
-                    <a href="" className="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
-                      <i className="ti-power-off mR-10"></i>
-                      <span>Logout</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+  return (
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">Navbar</a>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Features</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">Pricing</a>
+            </li>
+            <li className="nav-item dropdown">
+              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown link
+              </a>
+              <ul className="dropdown-menu">
+                <li><a className="dropdown-item" href="#">Action</a></li>
+                <li><a className="dropdown-item" href="#">Another action</a></li>
+                <li><a className="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
-    )
+      </div>
+    </nav>
+  )
 }

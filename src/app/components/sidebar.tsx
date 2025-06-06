@@ -5,68 +5,139 @@ export default function Sidebar() {
     
     return (
         <>
-            <button className="toggle-btn">
-                <i className="icofont-curved-double-left"></i>
-            </button>
-            <aside className="sidebar">
-                <div className="sidebar-header">
-                    <h2>CodingLab</h2>
-                </div>
-                <ul className="sidebar-links">
-                    <h4>
-                        <span>Main Menu</span>
-                        <div className="menu-separator"></div>
-                    </h4>
-                    <li>
-                        <a href="#">Dashboard</a>
+        <nav className="sidebar d-none d-md-block">
+            <ul className="nav flex-column">
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Home</a>
+                </li>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li><a className="dropdown-item" href="#">Service 1</a></li>
+                        <li><a className="dropdown-item" href="#">Service 2</a></li>
+                        <li><a className="dropdown-item" href="#">Service 3</a></li>
+                    </ul>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">About</a>
+                </li>
+                 <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li><a className="dropdown-item" href="#">Service 1</a></li>
+                        <li><a className="dropdown-item" href="#">Service 2</a></li>
+                        <li><a className="dropdown-item" href="#">Service 3</a></li>
+                    </ul>
+                </li>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li><a className="dropdown-item" href="#">Service 1</a></li>
+                        <li><a className="dropdown-item" href="#">Service 2</a></li>
+                        <li><a className="dropdown-item" href="#">Service 3</a></li>
+                    </ul>
+                </li>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li><a className="dropdown-item" href="#">Service 1</a></li>
+                        <li><a className="dropdown-item" href="#">Service 2</a></li>
+                        <li><a className="dropdown-item" href="#">Service 3</a></li>
+                    </ul>
+                </li>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul className="dropdown-menu">
+                        <li><a className="dropdown-item" href="#">Service 1</a></li>
+                        <li><a className="dropdown-item" href="#">Service 2</a></li>
+                        <li><a className="dropdown-item" href="#">Service 3</a></li>
+                    </ul>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div className="offcanvas offcanvas-start bg-dark text-white" tabIndex={-1} id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+            <div className="offcanvas-header">
+                <h5 className="offcanvas-title" id="mobileSidebarLabel">Menu</h5>
+                <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div className="offcanvas-body p-0">
+                <ul className="nav flex-column">
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">Home</a>
                     </li>
-                    <li>
-                        <a href="#">Overview</a>
-                    </li>
-                    <li>
-                        <a href="#">Analytic</a>
-                    </li>
-                    <h4>
-                        <span>General</span>
-                        <div className="menu-separator"></div>
-                    </h4>
-                    <li>
-                        <a href="#">Projects</a>
-                    </li>
-                    <li>
-                        <a href="#">Groups</a>
-                    </li>
-                    <li>
-                        <a href="#">Transfer</a>
-                    </li>
-                    <li>
-                        <a href="#">All Reports</a>
-                    </li>
-                    <li>
-                        <a href="#">Notifications</a>
-                    </li>
-                    <li className="drop-down">
-                        <a href="#">
-                            Projects                            
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
                         </a>
-                        <ul className="sub-menu">
-                            <li><a href="#">Project 1</a></li>
-                            <li><a href="#">Project 2</a></li>
+                        <ul className="dropdown-menu">
+                            <li><a className="dropdown-item" href="#">Service 1</a></li>
+                            <li><a className="dropdown-item" href="#">Service 2</a></li>
+                            <li><a className="dropdown-item" href="#">Service 3</a></li>
                         </ul>
                     </li>
-                    
-                    <h4>
-                        <span>Account</span>
-                        <div className="menu-separator"></div>
-                    </h4>
-                    <li>
-                        <a href="#">Profile</a>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">About</a>
                     </li>
-                    <li>
-                        <a href="#">Settings</a>
+                     <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul className="dropdown-menu">
+                            <li><a className="dropdown-item" href="#">Service 1</a></li>
+                            <li><a className="dropdown-item" href="#">Service 2</a></li>
+                            <li><a className="dropdown-item" href="#">Service 3</a></li>
+                        </ul>
+                    </li>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul className="dropdown-menu">
+                            <li><a className="dropdown-item" href="#">Service 1</a></li>
+                            <li><a className="dropdown-item" href="#">Service 2</a></li>
+                            <li><a className="dropdown-item" href="#">Service 3</a></li>
+                        </ul>
+                    </li>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul className="dropdown-menu">
+                            <li><a className="dropdown-item" href="#">Service 1</a></li>
+                            <li><a className="dropdown-item" href="#">Service 2</a></li>
+                            <li><a className="dropdown-item" href="#">Service 3</a></li>
+                        </ul>
+                    </li>
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul className="dropdown-menu">
+                            <li><a className="dropdown-item" href="#">Service 1</a></li>
+                            <li><a className="dropdown-item" href="#">Service 2</a></li>
+                            <li><a className="dropdown-item" href="#">Service 3</a></li>
+                        </ul>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
-            </aside>
+            </div>
+        </div>
         </>
     );
 }
